@@ -55,7 +55,7 @@ A2C net:
 - @article{Lillicrap2016,
    author = {Timothy P Lillicrap and Jonathan J Hunt and Alexander Pritzel and Nicolas Heess and Tom Erez and Yuval Tassa and David Silver and Daan Wierstra},
    title = {CONTINUOUS CONTROL WITH DEEP REINFORCEMENT LEARNING},
-   url = {https://goo.gl/J4PIAz},
+   url = { https://goo.gl/J4PIAz },
    year = {2016},
 }
 
