@@ -49,7 +49,7 @@ A2C net:
    author = {Richard S Sutton and David Mcallester and Satinder Singh and Yishay Mansour},
    title = {Policy Gradient Methods for Reinforcement Learning with Function Approximation},
    year = {1999},
-}
+} [(paper)](https://proceedings.neurips.cc/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf)
 
 - @article{Lillicrap2016,
    author = {Timothy P Lillicrap and Jonathan J Hunt and Alexander Pritzel and Nicolas Heess and Tom Erez and Yuval Tassa and David Silver and Daan Wierstra},
