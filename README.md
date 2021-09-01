@@ -5,6 +5,8 @@
 ### Pseudocode
 
 
+![1](static/pseudo1.png)
+
 The main thing -
 
 ## `CartPole-v0` parameters:

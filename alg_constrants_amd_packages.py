@@ -19,7 +19,7 @@ from pytorch_lightning import loggers as pl_loggers
 
 ENV = 'LunarLanderContinuous-v2'
 # ENV='Pendulum-v0'
-# ENV = "BipedalWalker-v2"
+# ENV = "BipedalWalker-v3"
 # ENV = "CarRacing-v0"
 # ENV='MountainCarContinuous-v0'
 
