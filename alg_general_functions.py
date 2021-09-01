@@ -1,10 +1,20 @@
 from alg_constrants_amd_packages import *
 
 
-def fill_the_buffer(train_dataset, env):
+def get_action(state, model):
+    model_output = model(np.expand_dims(state, axis=0))
+    # _, action = torch.max(policy_dist.squeeze(), dim=1)
+    # return int(action.item())
+    model_output = torch.squeeze(model_output)
+    action = model_output.detach().numpy()
+    # print(action)
+    return action
+
+
+def fill_the_buffer(train_dataset, env, actor_net):
     state = env.reset()
     while len(train_dataset) < REPLAY_BUFFER_SIZE:
-        action = env.action_space.sample()
+        action = get_action(state, actor_net)
         next_state, reward, done, _ = env.step(action)
         # env.render()
         if done:
@@ -14,15 +24,6 @@ def fill_the_buffer(train_dataset, env):
             experience = Experience(state=state, action=action, reward=reward, done=done, new_state=next_state)
         train_dataset.append(experience)
     env.close()
-
-
-def get_action(state, net):
-    _, policy_dist = net(np.expand_dims(state, axis=0))
-    # _, action = torch.max(policy_dist.squeeze(), dim=1)
-    # return int(action.item())
-    action = torch.argmax(policy_dist.squeeze()).item()
-    # print(action)
-    return action
 
 
 def play(times: int = 1, model=None):
@@ -35,8 +36,10 @@ def play(times: int = 1, model=None):
     game = 0
     total_reward = 0
     while game < times:
-        action = env.action_space.sample()
-        # action = get_action(state, model)
+        if model:
+            action = get_action(state, model)
+        else:
+            action = env.action_space.sample()
         next_state, reward, done, _ = env.step(action)
         total_reward += reward
         env.render()
@@ -48,3 +51,22 @@ def play(times: int = 1, model=None):
         else:
             state = next_state
     env.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

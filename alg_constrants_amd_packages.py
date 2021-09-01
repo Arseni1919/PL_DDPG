@@ -30,6 +30,7 @@ ENV = 'LunarLanderContinuous-v2'
 # ENV='MountainCarContinuous-v0'
 NUMBER_OF_GAMES = 10
 SAVE_RESULTS = True
+PATH = 'actor_net.pt'
 
 # NEPTUNE = True
 NEPTUNE = False
@@ -48,6 +49,7 @@ ENTROPY_BETA = 0.001
 REWARD_STEPS = 4
 CLIP_GRAD = 0.1
 VAL_CHECKPOINT_INTERVAL = 10
+UPDATE_EVERY = 50
 HIDDEN_SIZE = 256
 REPLAY_BUFFER_SIZE = 1000
 Experience = namedtuple('Experience', ['state', 'action', 'reward', 'done', 'new_state'])

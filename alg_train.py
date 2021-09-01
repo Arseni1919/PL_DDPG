@@ -22,7 +22,7 @@ def train():
 
     # REPLAY BUFFER
     train_dataset = ALGDataset()
-    fill_the_buffer(train_dataset, env)
+    fill_the_buffer(train_dataset, env, actor_net)
     train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 
     # Train
@@ -30,10 +30,12 @@ def train():
     DDPG_module.train()
 
     # Save Results
-    # TODO
-
-    # example runs
-    play(10)
+    if SAVE_RESULTS:
+        torch.save(actor_net, 'actor_net.pt')
+        # example runs
+        model = torch.load('actor_net.pt')
+        model.eval()
+        play(10, model=model)
 
 
 if __name__ == '__main__':

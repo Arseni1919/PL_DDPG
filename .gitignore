@@ -11,3 +11,4 @@ checkpoints
 .neptune
 .ckpt
 example.ckpt
+actor_net.pt
