@@ -6,12 +6,12 @@ PARAMS = {
     # 'LR': LR,
     # 'CLIP_GRAD': CLIP_GRAD,
     'ENV': ENV,
-    'MAX_EPOCHS': MAX_EPOCHS,
+    'MAX_STEPS': MAX_STEPS,
 }
 
 if NEPTUNE:
     run = neptune.init(project='1919ars/PL-implementations',
-                       tags=['DDPG', ENV, f'{MAX_EPOCHS} epochs'],
+                       tags=['DDPG', ENV],
                        name=f'DDPG_{time.asctime()}',
                        source_files=['alg_constrants_amd_packages.py'])
 else:

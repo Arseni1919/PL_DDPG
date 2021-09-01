@@ -16,9 +16,11 @@ def train():
 
     # NETS
     critic_net = CriticNet(obs_size, n_actions)
-    critic_target_net = CriticNet(obs_size, n_actions).load_state_dict(critic_net.state_dict())
+    critic_target_net = CriticNet(obs_size, n_actions)
+    critic_target_net.load_state_dict(critic_net.state_dict())
     actor_net = ActorNet(obs_size, n_actions)
-    actor_target_net = ActorNet(obs_size, n_actions).load_state_dict(actor_net.state_dict())
+    actor_target_net = ActorNet(obs_size, n_actions)
+    actor_target_net.load_state_dict(actor_net.state_dict())
 
     # REPLAY BUFFER
     train_dataset = ALGDataset()
@@ -26,14 +28,16 @@ def train():
     train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 
     # Train
-    DDPG_module = ALGModule()
-    DDPG_module.train()
+    DDPG_module = ALGModule(
+        env, critic_net, critic_target_net, actor_net, actor_target_net, train_dataset, train_dataloader
+    )
+    DDPG_module.fit()
 
     # Save Results
     if SAVE_RESULTS:
-        torch.save(actor_net, 'actor_net.pt')
+        torch.save(actor_target_net, 'actor_target_net.pt')
         # example runs
-        model = torch.load('actor_net.pt')
+        model = torch.load('actor_target_net.pt')
         model.eval()
         play(10, model=model)
 
