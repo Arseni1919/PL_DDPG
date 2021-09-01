@@ -36,6 +36,8 @@ A2C net:
 - [1 - Deep Deterministic Policy Gradient (DDPG): Theory and Implementation | Medium](https://towardsdatascience.com/deep-deterministic-policy-gradient-ddpg-theory-and-implementation-747a3010e82f)
 - [2 - DDPG implementation | Medium](https://towardsdatascience.com/deep-deterministic-policy-gradients-explained-2d94655a9b7b)
 
+- [Policy Gradient Algorithms | Lilian Weng's Blog](https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html)
+
 ## Papers:
 
 - @report{Silver2014,
@@ -57,6 +59,14 @@ A2C net:
    url = { https://goo.gl/J4PIAz },
    year = {2016},
 } [(paper)](https://arxiv.org/pdf/1509.02971.pdf)
+
+- @article{weng2018PG,
+  title   = "Policy Gradient Algorithms",
+  author  = "Weng, Lilian",
+  journal = "lilianweng.github.io/lil-log",
+  year    = "2018",
+  url     = "https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html"
+}
 
 
 
