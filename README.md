@@ -7,22 +7,21 @@
 
 ![1](static/pseudo1.png)
 
-The main thing -
 
-## `CartPole-v0` parameters:
-```
-
-```
-A2C net:
+## `LunarLanderContinuous-v2` parameters:
 ```
 
 ```
-
-## `LunarLander-v2` parameters:
+DDPG net:
 ```
 
 ```
-A2C net:
+
+## `BipedalWalker-v3` parameters:
+```
+
+```
+DDPG net:
 ```
 
 ```
@@ -37,8 +36,9 @@ A2C net:
 - [Deep-Reinforcement-Learning-Hands-On-Second-Edition (page 512)](https://github.com/PacktPublishing/Deep-Reinforcement-Learning-Hands-On-Second-Edition/tree/master/Chapter17)
 - [1 - Deep Deterministic Policy Gradient (DDPG): Theory and Implementation | Medium](https://towardsdatascience.com/deep-deterministic-policy-gradient-ddpg-theory-and-implementation-747a3010e82f)
 - [2 - DDPG implementation | Medium](https://towardsdatascience.com/deep-deterministic-policy-gradients-explained-2d94655a9b7b)
-
 - [Policy Gradient Algorithms | Lilian Weng's Blog](https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html)
+- [DATASETS & DATALOADERS | PyTorch](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html)
+- [SAVING AND LOADING MODELS | PyTorch](https://pytorch.org/tutorials/beginner/saving_loading_models.html)
 
 ## Papers:
 

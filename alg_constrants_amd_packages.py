@@ -1,8 +1,14 @@
 import os
+import time
+from collections import namedtuple, deque
+
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
-from collections import namedtuple, deque
+import plotly
+import plotly.express as px
+import neptune.new as neptune
+from neptune.new.types import File
 
 import torch
 from torch import nn
@@ -22,15 +28,19 @@ ENV = 'LunarLanderContinuous-v2'
 # ENV = "BipedalWalker-v3"
 # ENV = "CarRacing-v0"
 # ENV='MountainCarContinuous-v0'
-
 NUMBER_OF_GAMES = 10
 SAVE_RESULTS = True
+
+# NEPTUNE = True
+NEPTUNE = False
+# PLOT_LIVE = True
+PLOT_LIVE = False
 # ------------------------------------------- #
 # ------------------FOR ALG:----------------- #
 # ------------------------------------------- #
 
 MAX_EPOCHS = 1000  # maximum epoch to execute
-# BATCH_SIZE = 128  # size of the batches
+BATCH_SIZE = 128  # size of the batches
 MAX_LENGTH_OF_A_GAME = 10000
 LR = 3e-5  # learning rate
 GAMMA = 0.99  # discount factor
@@ -39,3 +49,6 @@ REWARD_STEPS = 4
 CLIP_GRAD = 0.1
 VAL_CHECKPOINT_INTERVAL = 10
 HIDDEN_SIZE = 256
+REPLAY_BUFFER_SIZE = 1000
+Experience = namedtuple('Experience', ['state', 'action', 'reward', 'done', 'new_state'])
+
