@@ -40,16 +40,17 @@ PLOT_LIVE = False
 # ------------------FOR ALG:----------------- #
 # ------------------------------------------- #
 
+# MAX_LENGTH_OF_A_GAME = 10000
+# ENTROPY_BETA = 0.001
+# REWARD_STEPS = 4
+# CLIP_GRAD = 0.1
 MAX_STEPS = 100000  # maximum epoch to execute
 BATCH_SIZE = 128  # size of the batches
-MAX_LENGTH_OF_A_GAME = 10000
 LR = 3e-5  # learning rate
 GAMMA = 0.99  # discount factor
 ACT_NOISE = 0.1  # actuator noise
-ENTROPY_BETA = 0.001
-REWARD_STEPS = 4
-CLIP_GRAD = 0.1
-VAL_CHECKPOINT_INTERVAL = 100
+POLYAK = 0.995
+VAL_CHECKPOINT_INTERVAL = 500
 UPDATE_EVERY = 50
 HIDDEN_SIZE = 256
 REPLAY_BUFFER_SIZE = 1000
