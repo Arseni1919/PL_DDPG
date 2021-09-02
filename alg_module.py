@@ -27,10 +27,13 @@ class ALGModule:
         self.train_dataset = train_dataset
         self.train_dataloader = train_dataloader
 
-        self.critic_opt, self.actor_opt = self.configure_optimizers()
+        self.critic_opt = torch.optim.Adam(self.critic_net.parameters(), lr=LR_CRITIC)
+        self.actor_opt = torch.optim.Adam(self.actor_net.parameters(), lr=LR_ACTOR)
 
         if PLOT_LIVE:
             self.fig, _ = plt.subplots(nrows=2, ncols=3, figsize=(12, 6))
+            self.actor_losses = []
+            self.critic_losses = []
 
     def fit(self):
 
@@ -55,67 +58,83 @@ class ALGModule:
         if step % UPDATE_EVERY == 0:
             print(f'[TRAINING STEP] Step: {step}')
 
-            for batch in self.train_dataloader:
+            list_of_batches = list(self.train_dataloader)
+
+            for b_indx in range(10):  # range(len(list_of_batches)) | range(x)
+                batch = list_of_batches[b_indx]
                 states, actions, rewards, dones, next_states = batch
 
                 # compute targets
                 actions_target_net = self.actor_target_net(next_states)
                 Q_target_vals = self.critic_target_net(next_states, actions_target_net)
-                y = rewards + GAMMA * (1 - dones) * Q_target_vals
+                y = rewards.float() + GAMMA * (~dones).float() * torch.squeeze(Q_target_vals)
 
                 # update critic - gradient descent
                 self.critic_opt.zero_grad()
                 actions_net = self.actor_net(states)
                 Q_vals = self.critic_net(states, actions_net)
-                critic_loss = nn.MSELoss(Q_vals, y)
+                Q_vals = torch.squeeze(Q_vals)
+                critic_loss = nn.MSELoss()(Q_vals, y.detach())
                 critic_loss.backward()
                 self.critic_opt.step()
 
                 # update actor - gradient ascent
                 self.actor_opt.zero_grad()
                 actions_net = self.actor_net(states)
-                actor_loss = self.critic_net(states, actions_net).mean()
+                actor_loss = - self.critic_net(states, actions_net).mean()
                 actor_loss.backward()
                 self.actor_opt.step()
 
                 # update target networks
+                critic_w_mse, actor_w_mse = [], []
                 for target_param, param in zip(self.critic_target_net.parameters(), self.critic_net.parameters()):
                     target_param.data.copy_(POLYAK * target_param.data + (1.0 - POLYAK) * param.data)
+                    critic_w_mse.append(np.square(target_param.data.numpy() - param.data.numpy()).mean())
 
                 for target_param, param in zip(self.actor_target_net.parameters(), self.actor_net.parameters()):
                     target_param.data.copy_(POLYAK * target_param.data + (1.0 - POLYAK) * param.data)
+                    actor_w_mse.append((np.square(target_param.data.numpy() - param.data.numpy())).mean())
 
-                self.neptune_update(loss=None)
                 self.plot(
-                    {}
-                    # {'rewards': rewards, 'values': values, 'ref_v': ref_v.numpy(), 'loss': self.log_for_loss, 'lengths': lengths, 'adv_v': adv_v.numpy()}
+                    {
+                        'actor_loss': actor_loss.item(),
+                        'critic_loss': critic_loss.item(),
+                        'critic_w_mse': critic_w_mse,
+                        'actor_w_mse': actor_w_mse,
+                    }
+                    # {'rewards': rewards, 'values': values, 'ref_v': ref_v.numpy(),
+                    # 'loss': self.log_for_loss, 'lengths': lengths, 'adv_v': adv_v.numpy()}
                 )
+                self.neptune_update(loss=None)
 
     def validation_step(self, step):
-        if step % VAL_CHECKPOINT_INTERVAL == 0:
+        if step % VAL_CHECKPOINT_INTERVAL == 0 and step > 0:
             print(f'[VALIDATION STEP] Step: {step}')
             play(1, self.actor_target_net)
 
     def configure_optimizers(self):
-        critic_opt = torch.optim.Adam(self.critic_net.parameters(), lr=LR)
-        actor_opt = torch.optim.Adam(self.actor_net.parameters(), lr=LR)
-        return critic_opt, actor_opt
+        pass
 
     def plot(self, graph_dict):
         # plot live:
         if PLOT_LIVE:
-            # plt.clf()
-            # plt.plot(list(range(len(self.log_for_loss))), self.log_for_loss)
-            # plt.plot(list(range(len(rewards))), rewards)
+            def plot_graph(ax, indx, list_of_values, label, color='r'):
+                ax[indx].cla()
+                ax[indx].plot(list(range(len(list_of_values))), list_of_values, c=color)  # , edgecolor='b')
+                ax[indx].set_title(f'Plot: {label}')
+                ax[indx].set_xlabel('iters')
+                ax[indx].set_ylabel(f'{label}')
 
             ax = self.fig.get_axes()
 
-            for indx, (k, v) in enumerate(graph_dict.items()):
-                ax[indx].cla()
-                ax[indx].plot(list(range(len(v))), v, c='r')  # , edgecolor='b')
-                ax[indx].set_title(f'Plot: {k}')
-                ax[indx].set_xlabel('iters')
-                ax[indx].set_ylabel(f'{k}')
+            self.actor_losses.append(graph_dict['actor_loss'])
+            self.critic_losses.append(graph_dict['critic_loss'])
+
+            # graphs
+            plot_graph(ax, 1, self.actor_losses, 'actor_loss')
+            plot_graph(ax, 2, self.critic_losses, 'critic_loss')
+            plot_graph(ax, 3, graph_dict['actor_w_mse'], 'actor_w_mse')
+            plot_graph(ax, 4, graph_dict['critic_w_mse'], 'critic_w_mse')
 
             plt.pause(0.05)
             # plt.pause(1.05)

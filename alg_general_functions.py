@@ -13,7 +13,7 @@ def get_action(state, model: nn.Module):
 
 def fill_the_buffer(train_dataset, env, actor_net):
     state = env.reset()
-    while len(train_dataset) < REPLAY_BUFFER_SIZE:
+    while len(train_dataset) < UPDATE_AFTER:
         action = get_action(state, actor_net)
         next_state, reward, done, _ = env.step(action)
         # env.render()
@@ -47,21 +47,6 @@ def play(times: int = 1, model: nn.Module = None):
             else:
                 state = next_state
         env.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

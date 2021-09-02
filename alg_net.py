@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 
 from alg_constrants_amd_packages import *
@@ -16,8 +17,8 @@ class ActorNet(nn.Module):
         self.net = nn.Sequential(
             nn.Linear(obs_size, HIDDEN_SIZE),
             nn.ReLU(),
-            nn.Linear(HIDDEN_SIZE, HIDDEN_SIZE),
-            nn.ReLU(),
+            # nn.Linear(HIDDEN_SIZE, HIDDEN_SIZE),
+            # nn.ReLU(),
             nn.Linear(HIDDEN_SIZE, n_actions),
             nn.Tanh()
         )
@@ -27,8 +28,8 @@ class ActorNet(nn.Module):
         self.entropy_term = 0
 
     def forward(self, state):
-
-        state = Variable(torch.from_numpy(state).float().unsqueeze(0))
+        if type(state) is np.ndarray:
+            state = Variable(torch.from_numpy(state).float().unsqueeze(0))
         value = self.net(state)
 
         return value
@@ -59,8 +60,8 @@ class CriticNet(nn.Module):
         self.entropy_term = 0
 
     def forward(self, state, action):
-
-        state = Variable(torch.from_numpy(state).float().unsqueeze(0))
+        if type(state) is np.ndarray:
+            state = Variable(torch.from_numpy(state).float().unsqueeze(0))
         obs = self.obs_net(state)
         value = self.out_net(torch.cat([obs, action], dim=1))
 

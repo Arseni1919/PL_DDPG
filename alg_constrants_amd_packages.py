@@ -34,8 +34,8 @@ PATH = 'actor_net.pt'
 
 # NEPTUNE = True
 NEPTUNE = False
-# PLOT_LIVE = True
-PLOT_LIVE = False
+PLOT_LIVE = True
+# PLOT_LIVE = False
 # ------------------------------------------- #
 # ------------------FOR ALG:----------------- #
 # ------------------------------------------- #
@@ -45,14 +45,16 @@ PLOT_LIVE = False
 # REWARD_STEPS = 4
 # CLIP_GRAD = 0.1
 MAX_STEPS = 100000  # maximum epoch to execute
-BATCH_SIZE = 128  # size of the batches
-LR = 3e-5  # learning rate
+BATCH_SIZE = 64  # size of the batches
+LR_CRITIC = 3e-4  # learning rate
+LR_ACTOR = 3e-3  # learning rate
 GAMMA = 0.99  # discount factor
-ACT_NOISE = 0.1  # actuator noise
-POLYAK = 0.995
-VAL_CHECKPOINT_INTERVAL = 500
+ACT_NOISE = 0.2  # actuator noise
+POLYAK = 0.999
+VAL_CHECKPOINT_INTERVAL = 1000
+REPLAY_BUFFER_SIZE = 1000000
+UPDATE_AFTER = 5000
 UPDATE_EVERY = 50
 HIDDEN_SIZE = 256
-REPLAY_BUFFER_SIZE = 1000
 Experience = namedtuple('Experience', ['state', 'action', 'reward', 'done', 'new_state'])
 
