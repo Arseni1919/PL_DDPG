@@ -10,8 +10,9 @@
 
 ## `LunarLanderContinuous-v2` parameters:
 ```
-
+Bad implementation
 ```
+
 DDPG net:
 ```
 
@@ -19,8 +20,9 @@ DDPG net:
 
 ## `BipedalWalker-v3` parameters:
 ```
-
+Bad implementation
 ```
+
 DDPG net:
 ```
 

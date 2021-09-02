@@ -1,12 +1,15 @@
+import numpy as np
+
 from alg_constrants_amd_packages import *
 
 
-def get_action(state, model: nn.Module):
+def get_action(state, model: nn.Module, step=0):
     with torch.no_grad():
         model_output = model(np.expand_dims(state, axis=0))
         model_output = torch.squeeze(model_output)
         action = model_output.detach().numpy()
-        action = action + np.random.normal(0, ACT_NOISE, 2)
+        noise = ACT_NOISE / np.log(step) if step > 5000 else ACT_NOISE
+        action = action + np.random.normal(0, noise, 2)
         action = np.clip(action, -1, 1)
         return action
 

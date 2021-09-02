@@ -42,7 +42,7 @@ class ALGModule:
         for step in range(MAX_STEPS):
             self.validation_step(step)
 
-            action = get_action(state, self.actor_net)
+            action = get_action(state, self.actor_net, step)
             next_state, reward, done, _ = self.env.step(action)
 
             experience = Experience(state=state, action=action, reward=reward, done=done, new_state=next_state)
@@ -101,6 +101,7 @@ class ALGModule:
                         'critic_loss': critic_loss.item(),
                         'critic_w_mse': critic_w_mse,
                         'actor_w_mse': actor_w_mse,
+                        'b_indx': b_indx,
                     }
                     # {'rewards': rewards, 'values': values, 'ref_v': ref_v.numpy(),
                     # 'loss': self.log_for_loss, 'lengths': lengths, 'adv_v': adv_v.numpy()}
@@ -126,18 +127,20 @@ class ALGModule:
                 ax[indx].set_ylabel(f'{label}')
 
             ax = self.fig.get_axes()
+            b_indx = graph_dict['b_indx']
 
             self.actor_losses.append(graph_dict['actor_loss'])
             self.critic_losses.append(graph_dict['critic_loss'])
 
             # graphs
-            plot_graph(ax, 1, self.actor_losses, 'actor_loss')
-            plot_graph(ax, 2, self.critic_losses, 'critic_loss')
-            plot_graph(ax, 3, graph_dict['actor_w_mse'], 'actor_w_mse')
-            plot_graph(ax, 4, graph_dict['critic_w_mse'], 'critic_w_mse')
+            if b_indx % 9 == 0:
+                plot_graph(ax, 1, self.actor_losses, 'actor_loss')
+                plot_graph(ax, 2, self.critic_losses, 'critic_loss')
+                plot_graph(ax, 3, graph_dict['actor_w_mse'], 'actor_w_mse')
+                plot_graph(ax, 4, graph_dict['critic_w_mse'], 'critic_w_mse')
 
-            plt.pause(0.05)
-            # plt.pause(1.05)
+                plt.pause(0.05)
+                # plt.pause(1.05)
 
     @staticmethod
     def neptune_update(loss):
