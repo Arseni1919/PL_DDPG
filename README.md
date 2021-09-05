@@ -30,9 +30,9 @@ DDPG net:
 
 ## Credits:
 
-- [DDPG - OpenAI](https://spinningup.openai.com/en/latest/algorithms/ddpg.html)
-- [Environments in OpenAI](https://gym.openai.com/envs/#box2d)
-- [Optimization In Pytorch-Lightning](https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html#automatic-optimization)
+- [DDPG | OpenAI](https://spinningup.openai.com/en/latest/algorithms/ddpg.html)
+- [Environments | OpenAI](https://gym.openai.com/envs/#box2d)
+- [Optimization | Pytorch-Lightning](https://pytorch-lightning.readthedocs.io/en/latest/common/optimizers.html#automatic-optimization)
 - [Adam Grad - page 36 (Training NNs from Stanford's course)](http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture7.pdf)
 - [Kullback–Leibler divergence (YouTube video) - great](https://www.youtube.com/watch?v=ErfnhcEV1O8&ab_channel=Aur%C3%A9lienG%C3%A9ron)
 - [Deep-Reinforcement-Learning-Hands-On-Second-Edition (page 512)](https://github.com/PacktPublishing/Deep-Reinforcement-Learning-Hands-On-Second-Edition/tree/master/Chapter17)
